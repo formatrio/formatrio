@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Simple login</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+    <script>
+      $(document).ready(function(){
+        var code,pass;
+        $("#submit").click(function(){
+          code=$("#code").val();
+          $.post("http://localhost:5000/",{code: code}, function(data){
+            $("pre").text(data);
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Hello people !</h1>
+    <textarea id="code"></textarea><br>
+    <input type="button" id="submit" value="Submit">
+    <pre></pre>
+  </body>
+</html>
