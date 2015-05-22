@@ -1,23 +1,96 @@
 <html>
-  <head>
-    <title>Simple login</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
-    <script>
-      $(document).ready(function(){
-        var code,pass;
-        $("#submit").click(function(){
-          code=$("#code").val();
-          $.post("http://localhost:5000/",{code: code}, function(data){
-            $("pre").text(data);
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+  <title>Formatr | Format your code!!!</title>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <!--css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css" media="screen,projection" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.css" />
+
+  <!--js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.min.js"></script>
+
+
+
+  <script>
+    $(document).ready(function() {
+      var code;
+      $("#submit").click(function() {
+        code = editor.getSession().getValue();
+        if (code.toString() == "") {
+          sweetAlert("Oops...", "Did you write any code?", "error");
+        }
+        else {
+          $.post("/", {
+            code: code
+          }, function(data) {
+            editor.getSession().setValue(data);
           });
-        });
+        }
       });
-    </script>
-  </head>
-  <body>
-    <h1>Hello people !</h1>
-    <textarea id="code"></textarea><br>
-    <input type="button" id="submit" value="Submit">
-    <pre></pre>
-  </body>
+    });
+  </script>
+
+
+  <style type="text/css" media="screen">
+    #submit {
+      float: right;
+    }
+    #editor {
+      width: auto;
+      height: 500px;
+    }
+    body {
+      background-color: #2f3129;
+    }
+    nav .brand-logo {
+      color: #ed2666;
+    }
+    nav {
+      background-color: #202020;
+    }
+    .pink {
+      background-color: #ed2666;
+    }
+    .something {
+      color: #ed2666;
+      float: right;
+    }
+    
+  </style>
+</head>
+
+
+
+
+<body>
+  <nav role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Formatr</a>
+    <span class="something"> Format C, C++, C++/CLI, Objective‑C, C#, and Java Source Code </span>
+    </div>
+    
+  </nav>
+  <div class="container">
+    <div id="editor"></div>
+
+    <a id="submit" class="pink waves-effect waves-light btn">Format</a>
+  </div>
+
+
+  <!--Ace Script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/c_cpp");
+    editor.setShowPrintMargin(false);
+  </script>
+
+</body>
+
 </html>
